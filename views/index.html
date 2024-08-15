@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Redirect</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+            position: relative;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-top: 0;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #555;
+        }
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .alert {
+            padding: 10px;
+            color: #ffffff;
+            border-radius: 4px;
+            margin-top: 10px;
+            display: none;
+        }
+        .alert.success {
+            background-color: #28a745;
+        }
+        .alert.error {
+            background-color: #dc3545;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #777;
+        }
+        .footer .social-links {
+            margin-top: 10px;
+        }
+        .footer .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+        }
+        .footer .social-links img {
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Link Redirect</h1>
+        <form id="redirectForm">
+            <label for="alias">Alias:</label>
+            <input type="text" id="alias" name="alias" required>
+
+            <label for="url">URL:</label>
+            <input type="text" id="url" name="url" required>
+
+            <button type="submit">Redirect</button>
+
+            <div id="alert" class="alert"></div>
+        </form>
+        <div class="footer">
+            &copy; 2024 por Fábio Antônio Astore
+            <div class="social-links">
+                <a href="https://github.com/FabioXXI" target="_blank" aria-label="GitHub">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/Octicons-mark-github.svg" alt="GitHub">
+                </a>
+                <a href="https://instagram.com/fabio_antonio_astore" target="_blank" aria-label="Instagram">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+                </a>
+                <a href="https://linkedin.com/in/fábio-antônio-astore-b027b6266" target="_blank" aria-label="LinkedIn">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/8/81/LinkedIn_icon.svg" alt="LinkedIn">
+                </a>
+                <a href="https://linktr.ee/fabio_antonio_astore" target="_blank" aria-label="Linktree">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJoAAACUCAMAAABcK8BVAAAAdVBMVEVD5mAAAABE6mI/2Fo7zFUDCQMNLRJC4V5F7WMHGwsFEAdI92dG8GQOMBQ0uUw5yFMqjzsMMhIHGAkWTSA80Vc3v08QNxcqlj0jejIURh0QPRgbYCgsm0AuokMzsUkgcC4XUiElhDYeaiwGIAoXWCIwqkYJJg6qbAzVAAADrUlEQVR4nO2b63KqMBRGYYMmehBQQUBaFdv6/o94BCsk7ACWIaGd2eufCJPllwshQcsiCIIgCIIgCIIgCGIy4J/E3DoC4G6Wm5rl1plbqAFcW2ThwNxGNeAuRLU1qb0Cqb3m0vo4oGbOlLuJXFq/GrAw4obM2N5OfqBmhfaeGXHjUXYvvhBz61MDlt4P7R0DbpxlVfmJUFafGg+rYxdLuxuPjt8CRVN+n1r6fXCvu9tyJ6sNwrqsbjVe1EcvetsbuJmgUAyrpcLhi87cINqLCnbhQZ8a8FQ6PdfoFshmdXtTqz36pshnpMvMye02BYcuNYAzOv3MdLmdttjN6lDDmdl2Fusys8A/oOLS+9irUAMLZ7YPNPZRiI+owFCR2j2zAp14cbWObM2IK+QGHKd2xZnpvleBq8gNq+HMMv2TOM6wW+GuxY8rR5GZZ2DSBg52yyW1j09sZmY6CV575B0kN/XUDAyPvb2khsRKN8Wg1c0uNPkUoxq2ulgnBsVKNytcDFuVrN7MmpVuyUtuq/cZnknh7QWzxWmOp2XwvgZzW/uebg2mxHofUvO7rpwKfnqlVf2EeKo7PfcnNttNNnEjNVIjNVIjtb+rtp5Q7bZUgpcZZBYH9XWb6VYYmKOEDc48vjqunErMKhekFHiKhaMWWewpL51QTakbIpPNErWqrxlmufxt3fbYxbi/3E6GNlpqQLHgcoy5d7ohX9PPLYra3AXlWiTOzbAbx2YfjwHB8/GzTGKwThWZrZ6bdzxA39nvptwA8ALyttlW5AHqH3Zoxg0sxdJ2JG6YBXi8S0y0N9Uq0dGVUoEYjW92oX2ctcDBZpf2JjEPMnRSynTv7ClW/aTa/P4BAc4t1btmCi5eps2xWZnbBZ141rkGzh1spsis+hGKDYazxjoNFGvfXVHwCOf2qS03Bxd27A4CHHQ/ta+6dvbAbzfuvK9pA2v/lEOgrUa900quoNpMOVEEJm8wLCdbu1Ig7zrmz9oE97Zt2ByfE2yQus1Bp9m9ccc3bNZ+ta55LQCEjeelzt3Qys1/3iCvTXdr7YeuhG9qN82ZVW7BIzdxkEJqzenPG9vSNfHmTryVM+tLrXS7Vn3T0PtOm9bNuie1x/sBW2NvicWtaURfapWb/nZWF8blobM3NXy6SQbU5qS/QmeFUhsDpTYGSm0MlNoY/lJqcws1UIWOgVIbA6U2hr+UGqm9wK9ua6LZr/qno+WEEtr+VTAC8CTm1iEIgiAIgiAIgiCIn/Mfohc2U/FP/60AAAAASUVORK5CYII=" alt="Linktree">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('redirectForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = {
+                alias: document.getElementById('alias').value,
+                url: document.getElementById('url').value
+            };
+
+            const alertBox = document.getElementById('alert');
+
+            try {
+                const URL = 'http://localhost:8000'
+                const response = await fetch(URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    alertBox.className = 'alert success';
+                    alertBox.textContent = `Redirected successfully: ${result.alias} -> ${result.url}`;
+                } else {
+                    alertBox.className = 'alert error';
+                    alertBox.textContent = `Error: ${response.statusText}`;
+                }
+                alertBox.style.display = 'block';
+            } catch (error) {
+                alertBox.className = 'alert error';
+                alertBox.textContent = `Error: ${error}`;
+                alertBox.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

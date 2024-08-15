@@ -5,9 +5,16 @@ from controller.crud.url import UrlCrud
 from controller.validators.url import UrlValidator
 from database.session import session
 from starlette.responses import RedirectResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 
 router = APIRouter()
+router.mount('/views', StaticFiles(directory="views"), name="views")
 url_crud = UrlCrud()
+
+@router.get('/', status_code=status.HTTP_200_OK)
+async def get_page():
+    return FileResponse('views/index.html')
 
 @router.post('/', status_code=status.HTTP_201_CREATED)
 async def create_url_alias(url_data: CreateUrlModel):
