@@ -143,7 +143,7 @@
                 if (response.ok) {
                     const result = await response.json();
                     alertBox.className = 'alert success';
-                    alertBox.textContent = `Shortened successfully: ${result.alias} -> ${result.url}`;
+                    alertBox.textContent = `https://localhost:8000/${result.alias}`;
                 } else {
                     alertBox.className = 'alert error';
                     alertBox.textContent = `Error: ${response.statusText}`;
