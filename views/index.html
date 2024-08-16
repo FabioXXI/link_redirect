@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24'><path d='M13.828 10.172a4.002 4.002 0 0 0 0-5.656l-2.828-2.828a4.002 4.002 0 0 0-5.656 0L2.828 4.828a4.002 4.002 0 0 0 0 5.656l2.828 2.828a4.002 4.002 0 0 0 5.656 0l2.828-2.828z'/></svg>" type="image/svg+xml">
     <title>Link Shortener</title>
     <style>
         body {
@@ -67,6 +68,11 @@
         .alert.error {
             background-color: #dc3545;
         }
+        #copyBtn {
+            margin-top: 10px;
+            display: none;
+            width: 100%;
+        }
         .footer {
             text-align: center;
             margin-top: 20px;
@@ -97,10 +103,13 @@
             <label for="url">URL:</label>
             <input type="text" id="url" name="url" required>
 
-            <button type="submit">Redirect</button>
+            <button type="submit">Shorten</button>
 
             <div id="alert" class="alert"></div>
         </form>
+
+        <button id="copyBtn">Copy Link</button>
+
         <div class="footer">
             &copy; 2024 by Fábio Antônio Astore
             <div class="social-links">
@@ -114,7 +123,8 @@
                     <img src="https://upload.wikimedia.org/wikipedia/commons/8/81/LinkedIn_icon.svg" alt="LinkedIn">
                 </a>
                 <a href="https://linktr.ee/fabio_antonio_astore" target="_blank" aria-label="Linktree">
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJoAAACUCAMAAABcK8BVAAAAdVBMVEVD5mAAAABE6mI/2Fo7zFUDCQMNLRJC4V5F7WMHGwsFEAdI92dG8GQOMBQ0uUw5yFMqjzsMMhIHGAkWTSA80Vc3v08QNxcqlj0jejIURh0QPRgbYCgsm0AuokMzsUkgcC4XUiElhDYeaiwGIAoXWCIwqkYJJg6qbAzVAAADrUlEQVR4nO2b63KqMBRGYYMmehBQQUBaFdv6/o94BCsk7ACWIaGd2eufCJPllwshQcsiCIIgCIIgCIIgCGIy4J/E3DoC4G6Wm5rl1plbqAFcW2ThwNxGNeAuRLU1qb0Cqb3m0vo4oGbOlLuJXFq/GrAw4obM2N5OfqBmhfaeGXHjUXYvvhBz61MDlt4P7R0DbpxlVfmJUFafGg+rYxdLuxuPjt8CRVN+n1r6fXCvu9tyJ6sNwrqsbjVe1EcvetsbuJmgUAyrpcLhi87cINqLCnbhQZ8a8FQ6PdfoFshmdXtTqz36pshnpMvMye02BYcuNYAzOv3MdLmdttjN6lDDmdl2Fusys8A/oOLS+9irUAMLZ7YPNPZRiI+owFCR2j2zAp14cbWObM2IK+QGHKd2xZnpvleBq8gNq+HMMv2TOM6wW+GuxY8rR5GZZ2DSBg52yyW1j09sZmY6CV575B0kN/XUDAyPvb2khsRKN8Wg1c0uNPkUoxq2ulgnBsVKNytcDFuVrN7MmpVuyUtuq/cZnknh7QWzxWmOp2XwvgZzW/uebg2mxHofUvO7rpwKfnqlVf2EeKo7PfcnNttNNnEjNVIjNVIjtb+rtp5Q7bZUgpcZZBYH9XWb6VYYmKOEDc48vjqunErMKhekFHiKhaMWWewpL51QTakbIpPNErWqrxlmufxt3fbYxbi/3E6GNlpqQLHgcoy5d7ohX9PPLYra3AXlWiTOzbAbx2YfjwHB8/GzTGKwThWZrZ6bdzxA39nvptwA8ALyttlW5AHqH3Zoxg0sxdJ2JG6YBXi8S0y0N9Uq0dGVUoEYjW92oX2ctcDBZpf2JjEPMnRSynTv7ClW/aTa/P4BAc4t1btmCi5eps2xWZnbBZ141rkGzh1spsis+hGKDYazxjoNFGvfXVHwCOf2qS03Bxd27A4CHHQ/ta+6dvbAbzfuvK9pA2v/lEOgrUa900quoNpMOVEEJm8wLCdbu1Ig7zrmz9oE97Zt2ByfE2yQus1Bp9m9ccc3bNZ+ta55LQCEjeelzt3Qys1/3iCvTXdr7YeuhG9qN82ZVW7BIzdxkEJqzenPG9vSNfHmTryVM+tLrXS7Vn3T0PtOm9bNuie1x/sBW2NvicWtaURfapWb/nZWF8blobM3NXy6SQbU5qS/QmeFUhsDpTYGSm0MlNoY/lJqcws1UIWOgVIbA6U2hr+UGqm9wK9ua6LZr/qno+WEEtr+VTAC8CTm1iEIgiAIgiAIgiCIn/Mfohc2U/FP/60AAAAASUVORK5CYII=" alt="Linktree">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJoAAACUCAMAAABcK8BVAAAAdVBMVEVD5mAAAABE6mI/2Fo7zFUDCQMNLRJC4V5F7WMHGwsFEAdI92dG8GQOMBQ0uUw5yFMqjzsMMhIHGAkWTSA80Vc3v08QNxcqlj0jejIURh0QPRgbYCgsm0AuokMzsUkgcC4XUiElhDYeaiwGIAoXWCIwqkYJJg6qbAzVAAADrUlEQVR4nO2b63KqMBRGYYMmehBQQUBaFdv6/o94BCsk7ACWIaGd2eufCJPllwshQcsiCIIgCIIgCIIgCGIy4J/E3DoC4G6Wm5rl1plbqAFcW2ThwNxGNeAuRLU1qb0Cqb3m0vo4oGbOlLuJXFq/GrAw4obM2N5OfqBmhfaeGXHjUXYvvhBz61MDlt4P7R0DbpxlVfmJUFafGg+rYxdLuxuPjt8CRVN+n1r6fXCvu9tyJ6sNwrqsbjVe1EcvetsbuJmgUAyrpcLhi87cINqLCnbhQZ8a8FQ6PdfoFshmdXtTqz36pshnpMvMye02BYcuNYAzOv3MdLmdttjN6lDDmdl2Fusys8A/oOLS+9irUAMLZ7YPNPZRiI+owFCR2j2zAp14cbWObM2IK+QGHKd2xZnpvleBq8gNq+HMMv2TOM6wW+GuxY8rR5GZZ2DSBg52yyW1j09sZmY6CV575B0kN/XUDAyPvb2khsRKN8Wg1c0uNPkUoxq2ulgnBsVKNytcDFuVrN7MmpVuyUtuq/cZnknh7QWzxWmOp2XwvgZzW/uebg2mxHofUvO7rpwKfnqlVf2EeKo7PfcnNttNNnEjNVIjNVIjtb+rtp5Q7bZUgpcZZBYH9XWb6VYYmKOEDc48vjqunErMKhekFHiKhaMWWewpL51QTakbIpPNErWqrxlmufxt3fbYxbi/3E6GNlpqQLHgcoy5d7ohX9PPLYra3AXlWiTOzbAbx2YfjwHB8/GzTGKwThWZrZ6bdzxA39nvptwA8ALyttlW5AHqH3Zoxg0sxdJ2JG6YBXi8S0y0N9Uq0dGVUoEYjW92oX2ctcDBZpf2JjEPMnRSynTv7ClW/aTa/P4BAc4t1btmCi5eps2xWZnbBZ141rkGzh1spsis+hGKDYazxjoNFGvfXVHwCOf2qS03Bxd27A4CHHQ/ta+6dvbAbzfuvK9pA2v/lEOgrUa900quoNpMOVEEJm8wLCdbu1Ig7zrmz9oE97Zt2ByfE2yQus1Bp9m9ccc3bNZ+ta55LQCEjeelzt3Qys1/3iCvTXdr7YeuhG9qN82ZVW7BIzdxkEJqzenPG9vSNfHmTryVM+tLrXS7Vn3T0PtOm9bNuie1x/sBW2NvicWtaURfapWb/nZWF8blobM3NXy6SQbU5qS/QmeFUhsDpTYGSm0MlNoY/lJqcws1UIWOgVIbA6U2hr+UGqm9wK9ua6LZr/qno+WEEtr+VTAC8CTm1iEIgiAIgiAIgiCIn/Mfohc2U/FP/60AAAAASUVORK5CYII=
+" alt="Linktree">
                 </a>
             </div>
         </div>
@@ -129,9 +139,10 @@
             };
 
             const alertBox = document.getElementById('alert');
+            const copyBtn = document.getElementById('copyBtn');
 
             try {
-                const URL = 'http://localhost:8000'
+                const URL = 'http://localhost:8000';
                 const response = await fetch(URL, {
                     method: 'POST',
                     headers: {
@@ -140,19 +151,30 @@
                     body: JSON.stringify(formData)
                 });
 
-                if (response.ok) {
-                    const result = await response.json();
-                    alertBox.className = 'alert success';
-                    alertBox.textContent = `https://localhost:8000/${result.alias}`;
-                } else {
-                    alertBox.className = 'alert error';
-                    alertBox.textContent = `Error: ${response.statusText}`;
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status} ${response.statusText}`);
                 }
+
+                const result = await response.json();
+                const shortUrl = `https://localhost:8000/${result.alias}`;
+                alertBox.className = 'alert success';
+                alertBox.textContent = shortUrl;
                 alertBox.style.display = 'block';
+                copyBtn.style.display = 'block';
+
+                copyBtn.addEventListener('click', function() {
+                    navigator.clipboard.writeText(shortUrl).then(function() {
+                        alert('Link copied to clipboard!');
+                    }, function(err) {
+                        console.error('Could not copy text: ', err);
+                    });
+                });
             } catch (error) {
                 alertBox.className = 'alert error';
-                alertBox.textContent = `Error: ${error}`;
+                alertBox.textContent = `Error: ${error.message}`;
                 alertBox.style.display = 'block';
+                copyBtn.style.display = 'none';
+                console.error('Request failed', error);
             }
         });
     </script>
